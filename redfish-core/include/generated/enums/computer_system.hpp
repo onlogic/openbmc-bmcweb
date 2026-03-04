@@ -10,21 +10,11 @@ namespace computer_system
 enum class BootSource{
     Invalid,
     None,
-    Pxe,
-    Floppy,
-    Cd,
-    Usb,
     Hdd,
+    RemovableMedia,
+    VirtualMedia,
+    Pxe,
     BiosSetup,
-    Utilities,
-    Diags,
-    UefiShell,
-    UefiTarget,
-    SDCard,
-    UefiHttp,
-    RemoteDrive,
-    UefiBootNext,
-    Recovery,
 };
 
 enum class SystemType{
@@ -241,21 +231,11 @@ enum class ExportSecurity{
 NLOHMANN_JSON_SERIALIZE_ENUM(BootSource, {
     {BootSource::Invalid, "Invalid"},
     {BootSource::None, "None"},
-    {BootSource::Pxe, "Pxe"},
-    {BootSource::Floppy, "Floppy"},
-    {BootSource::Cd, "Cd"},
-    {BootSource::Usb, "Usb"},
     {BootSource::Hdd, "Hdd"},
+    {BootSource::RemovableMedia, "RemovableMedia"},
+    {BootSource::VirtualMedia, "VirtualMedia"},
+    {BootSource::Pxe, "Pxe"},
     {BootSource::BiosSetup, "BiosSetup"},
-    {BootSource::Utilities, "Utilities"},
-    {BootSource::Diags, "Diags"},
-    {BootSource::UefiShell, "UefiShell"},
-    {BootSource::UefiTarget, "UefiTarget"},
-    {BootSource::SDCard, "SDCard"},
-    {BootSource::UefiHttp, "UefiHttp"},
-    {BootSource::RemoteDrive, "RemoteDrive"},
-    {BootSource::UefiBootNext, "UefiBootNext"},
-    {BootSource::Recovery, "Recovery"},
 });
 
 NLOHMANN_JSON_SERIALIZE_ENUM(SystemType, {
