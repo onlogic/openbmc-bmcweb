@@ -546,18 +546,18 @@ inline std::string dbusToRfBootSource(const std::string& dbusSource)
         return "Hdd";
     }
     if (dbusSource ==
-        "xyz.openbmc_project.Control.Boot.Source.Sources.ExternalMedia")
+        "xyz.openbmc_project.Control.Boot.Source.Sources.RemovableMedia")
     {
-        return "Cd";
+        return "RemovableMedia";
+    }
+    if (dbusSource ==
+        "xyz.openbmc_project.Control.Boot.Source.Sources.VirtualMedia")
+    {
+        return "VirtualMedia";
     }
     if (dbusSource == "xyz.openbmc_project.Control.Boot.Source.Sources.Network")
     {
         return "Pxe";
-    }
-    if (dbusSource ==
-        "xyz.openbmc_project.Control.Boot.Source.Sources.RemovableMedia")
-    {
-        return "Usb";
     }
     return "";
 }
@@ -572,10 +572,6 @@ inline std::string dbusToRfBootSource(const std::string& dbusSource)
  */
 inline std::string dbusToRfBootType(const std::string& dbusType)
 {
-    if (dbusType == "xyz.openbmc_project.Control.Boot.Type.Types.Legacy")
-    {
-        return "Legacy";
-    }
     if (dbusType == "xyz.openbmc_project.Control.Boot.Type.Types.EFI")
     {
         return "UEFI";
@@ -596,10 +592,6 @@ inline std::string dbusToRfBootMode(const std::string& dbusMode)
     if (dbusMode == "xyz.openbmc_project.Control.Boot.Mode.Modes.Regular")
     {
         return "None";
-    }
-    if (dbusMode == "xyz.openbmc_project.Control.Boot.Mode.Modes.Safe")
-    {
-        return "Diags";
     }
     if (dbusMode == "xyz.openbmc_project.Control.Boot.Mode.Modes.Setup")
     {
@@ -706,33 +698,29 @@ inline int assignBootParameters(
 
     if (rfSource == "None")
     {
-        return 0;
-    }
-    if (rfSource == "Pxe")
-    {
-        bootSource = "xyz.openbmc_project.Control.Boot.Source.Sources.Network";
+        bootSource = "xyz.openbmc_project.Control.Boot.Source.Sources.Default";
     }
     else if (rfSource == "Hdd")
     {
         bootSource = "xyz.openbmc_project.Control.Boot.Source.Sources.Disk";
     }
-    else if (rfSource == "Diags")
-    {
-        bootMode = "xyz.openbmc_project.Control.Boot.Mode.Modes.Safe";
-    }
-    else if (rfSource == "Cd")
+    else if (rfSource == "RemovableMedia")
     {
         bootSource =
-            "xyz.openbmc_project.Control.Boot.Source.Sources.ExternalMedia";
+            "xyz.openbmc_project.Control.Boot.Source.Sources.RemovableMedia";
+    }
+    else if (rfSource == "VirtualMedia")
+    {
+        bootSource =
+            "xyz.openbmc_project.Control.Boot.Source.Sources.VirtualMedia";
+    }
+    else if (rfSource == "Pxe")
+    {
+        bootSource = "xyz.openbmc_project.Control.Boot.Source.Sources.Network";
     }
     else if (rfSource == "BiosSetup")
     {
         bootMode = "xyz.openbmc_project.Control.Boot.Mode.Modes.Setup";
-    }
-    else if (rfSource == "Usb")
-    {
-        bootSource =
-            "xyz.openbmc_project.Control.Boot.Source.Sources.RemovableMedia";
     }
     else
     {
@@ -847,7 +835,7 @@ inline void getBootOverrideType(
             asyncResp->res
                 .jsonValue["Boot"]
                           ["BootSourceOverrideMode@Redfish.AllowableValues"] =
-                nlohmann::json::array_t({"Legacy", "UEFI"});
+                nlohmann::json::array_t({"UEFI"});
 
             auto rfType = dbusToRfBootType(bootType);
             if (rfType.empty())
@@ -891,12 +879,11 @@ inline void getBootOverrideMode(
 
             nlohmann::json::array_t allowed;
             allowed.emplace_back("None");
-            allowed.emplace_back("Pxe");
             allowed.emplace_back("Hdd");
-            allowed.emplace_back("Cd");
-            allowed.emplace_back("Diags");
+            allowed.emplace_back("RemovableMedia");
+            allowed.emplace_back("VirtualMedia");
+            allowed.emplace_back("Pxe");
             allowed.emplace_back("BiosSetup");
-            allowed.emplace_back("Usb");
 
             asyncResp->res
                 .jsonValue["Boot"]
@@ -1575,11 +1562,7 @@ inline void setBootType(const std::shared_ptr<bmcweb::AsyncResp>& asyncResp,
     // Source target specified
     BMCWEB_LOG_DEBUG("Boot type: {}", *bootType);
     // Figure out which DBUS interface and property to use
-    if (*bootType == "Legacy")
-    {
-        bootTypeStr = "xyz.openbmc_project.Control.Boot.Type.Types.Legacy";
-    }
-    else if (*bootType == "UEFI")
+    if (*bootType == "UEFI")
     {
         bootTypeStr = "xyz.openbmc_project.Control.Boot.Type.Types.EFI";
     }

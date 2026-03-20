@@ -298,90 +298,20 @@
         <Member Name="None">
           <Annotation Term="OData.Description" String="Boot from the normal boot device."/>
         </Member>
-        <Member Name="Pxe">
-          <Annotation Term="OData.Description" String="Boot from the Pre-boot eXecution Environment (PXE)."/>
-        </Member>
-        <Member Name="Floppy">
-          <Annotation Term="OData.Description" String="Boot from the floppy disk drive."/>
-        </Member>
-        <Member Name="Cd">
-          <Annotation Term="OData.Description" String="Boot from the CD or DVD."/>
-        </Member>
-        <Member Name="Usb">
-          <Annotation Term="OData.Description" String="Boot from a system BIOS-specified USB device."/>
-        </Member>
         <Member Name="Hdd">
           <Annotation Term="OData.Description" String="Boot from a hard drive."/>
         </Member>
+        <Member Name="RemovableMedia">
+          <Annotation Term="OData.Description" String="Boot from the removable media (USB)."/>
+        </Member>
+        <Member Name="VirtualMedia">
+          <Annotation Term="OData.Description" String="Boot from BMC mounted virtual media."/>
+        </Member>
+        <Member Name="Pxe">
+          <Annotation Term="OData.Description" String="Boot from the Pre-boot eXecution Environment (PXE)."/>
+        </Member>
         <Member Name="BiosSetup">
           <Annotation Term="OData.Description" String="Boot to the BIOS setup utility."/>
-        </Member>
-        <Member Name="Utilities">
-          <Annotation Term="OData.Description" String="Boot to the manufacturer's utilities program or programs."/>
-        </Member>
-        <Member Name="Diags">
-          <Annotation Term="OData.Description" String="Boot to the manufacturer's diagnostics program."/>
-        </Member>
-        <Member Name="UefiShell">
-          <Annotation Term="OData.Description" String="Boot to the UEFI Shell."/>
-        </Member>
-        <Member Name="UefiTarget">
-          <Annotation Term="OData.Description" String="Boot to the UEFI device specified in the `UefiTargetBootSourceOverride` property."/>
-        </Member>
-        <Member Name="SDCard">
-          <Annotation Term="OData.Description" String="Boot from an SD card."/>
-          <Annotation Term="Redfish.Revisions">
-            <Collection>
-              <Record>
-                <PropertyValue Property="Kind" EnumMember="Redfish.RevisionKind/Added"/>
-                <PropertyValue Property="Version" String="v1_1_0"/>
-              </Record>
-            </Collection>
-          </Annotation>
-        </Member>
-        <Member Name="UefiHttp">
-          <Annotation Term="OData.Description" String="Boot from a UEFI HTTP network location."/>
-          <Annotation Term="Redfish.Revisions">
-            <Collection>
-              <Record>
-                <PropertyValue Property="Kind" EnumMember="Redfish.RevisionKind/Added"/>
-                <PropertyValue Property="Version" String="v1_1_0"/>
-              </Record>
-            </Collection>
-          </Annotation>
-        </Member>
-        <Member Name="RemoteDrive">
-          <Annotation Term="OData.Description" String="Boot from a remote drive, such as an iSCSI target."/>
-          <Annotation Term="Redfish.Revisions">
-            <Collection>
-              <Record>
-                <PropertyValue Property="Kind" EnumMember="Redfish.RevisionKind/Added"/>
-                <PropertyValue Property="Version" String="v1_2_0"/>
-              </Record>
-            </Collection>
-          </Annotation>
-        </Member>
-        <Member Name="UefiBootNext">
-          <Annotation Term="OData.Description" String="Boot to the UEFI device that the `BootNext` property specifies."/>
-          <Annotation Term="Redfish.Revisions">
-            <Collection>
-              <Record>
-                <PropertyValue Property="Kind" EnumMember="Redfish.RevisionKind/Added"/>
-                <PropertyValue Property="Version" String="v1_5_0"/>
-              </Record>
-            </Collection>
-          </Annotation>
-        </Member>
-        <Member Name="Recovery">
-          <Annotation Term="OData.Description" String="Boot to a system-designated recovery process or image."/>
-          <Annotation Term="Redfish.Revisions">
-            <Collection>
-              <Record>
-                <PropertyValue Property="Kind" EnumMember="Redfish.RevisionKind/Added"/>
-                <PropertyValue Property="Version" String="v1_19_0"/>
-              </Record>
-            </Collection>
-          </Annotation>
         </Member>
       </EnumType>
     </Schema>
@@ -949,9 +879,6 @@
       </ComplexType>
 
       <EnumType Name="BootSourceOverrideMode">
-        <Member Name="Legacy">
-          <Annotation Term="OData.Description" String="The system boots in non-UEFI boot mode to the boot source override target."/>
-        </Member>
         <Member Name="UEFI">
           <Annotation Term="OData.Description" String="The system boots in UEFI boot mode to the boot source override target."/>
         </Member>
